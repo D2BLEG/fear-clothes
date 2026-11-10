@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mis compras')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <h1 class="h3 my-3">Mis compras</h1>
+
+    <p class="text-secondary" th:if="${#lists.isEmpty(ordenes)}">Aún no has comprado nada.</p>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(ordenes)}">
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+            <tr><th>Orden</th><th>Prenda</th><th>Precio final</th><th>Pago</th><th>Fecha</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${ordenes}">
+                <td th:text="'#' + ${o.id}">#1</td>
+                <td><a th:href="@{/publicacion/{id}(id=${o.publicacion.id})}"
+                       th:text="${o.publicacion.prenda.resumen}">Prenda</a></td>
+                <td class="fw-bold"><span th:replace="~{fragments/layout :: dinero(${o.precioFinal})}">$0</span></td>
+                <td th:text="${o.metodoPago}">Pago</td>
+                <td th:text="${#temporals.format(o.fecha, 'dd/MM/yyyy HH:mm')}">fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

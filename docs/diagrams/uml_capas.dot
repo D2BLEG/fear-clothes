@@ -1,0 +1,66 @@
+digraph G {
+ graph [rankdir=TB, nodesep=0.45, ranksep=0.8, fontname="Helvetica", bgcolor="white", pad=0.4, dpi=170, labelloc=t, fontsize=20, label=<<B>FEAR Clothes — Diagrama de capas (Controller → Service → Repository → Entidades)</B>>];
+ node [shape=plain, fontname="Helvetica", fontsize=11];
+ edge [fontname="Helvetica", fontsize=10, color="#333333"];
+ {rank=same; HomeController; AuthController; PublicacionController; CuentaController; AdminController; ManejadorErrores}
+ {rank=same; UsuarioService; PublicacionService; CatalogoService; SubastaScheduler; UsuarioDetailsService}
+ {rank=same; UsuarioRepository; MarcaRepository; TallaRepository; PrendaRepository; PublicacionRepository; PujaRepository; OrdenRepository}
+ HomeController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>HomeController</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">/ (catálogo y filtros)</TD></TR></TABLE>>];
+ AuthController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>AuthController</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">/login, /registro</TD></TR></TABLE>>];
+ PublicacionController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>PublicacionController</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">detalle, vender, editar,</TD></TR><TR><TD ALIGN="LEFT">eliminar, comprar, pujar, aceptar</TD></TR></TABLE>>];
+ CuentaController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>CuentaController</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">/mis-compras, /mis-ventas, /perfil</TD></TR></TABLE>>];
+ AdminController [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>AdminController</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">marcas, tallas, usuarios,</TD></TR><TR><TD ALIGN="LEFT">cerrar publicaciones</TD></TR></TABLE>>];
+ ManejadorErrores [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff" ALIGN="CENTER"><B>ManejadorErrores</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">@ControllerAdvice</TD></TR></TABLE>>];
+ UsuarioService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9" ALIGN="CENTER"><B>UsuarioService</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">registrar, actual, listar,</TD></TR><TR><TD ALIGN="LEFT">cambiarEstado, perfil</TD></TR></TABLE>>];
+ PublicacionService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9" ALIGN="CENTER"><B>PublicacionService</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">buscar, publicar, editar, eliminar,</TD></TR><TR><TD ALIGN="LEFT">pujar, comprarAhora, aceptarPuja,</TD></TR><TR><TD ALIGN="LEFT">cerrarSubastasVencidas</TD></TR></TABLE>>];
+ CatalogoService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9" ALIGN="CENTER"><B>CatalogoService</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">CRUD de marcas y tallas</TD></TR></TABLE>>];
+ SubastaScheduler [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9" ALIGN="CENTER"><B>SubastaScheduler</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">@Scheduled cada 60 s</TD></TR></TABLE>>];
+ UsuarioDetailsService [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9" ALIGN="CENTER"><B>UsuarioDetailsService</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">Spring Security (login)</TD></TR></TABLE>>];
+ UsuarioRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>UsuarioRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ MarcaRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>MarcaRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ TallaRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>TallaRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ PrendaRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>PrendaRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ PublicacionRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>PublicacionRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ PujaRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>PujaRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ OrdenRepository [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>OrdenRepository</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR></TABLE>>];
+ AlmacenArchivos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><FONT POINT-SIZE="10">&lt;&lt;interface&gt;&gt;<BR/></FONT><B>AlmacenArchivos</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">+guardar(archivo): String</TD></TR></TABLE>>];
+ AlmacenLocal [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3" ALIGN="CENTER"><B>AlmacenLocal</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">guarda en carpeta uploads/</TD></TR></TABLE>>];
+ Entidades [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#f6d9d5" ALIGN="CENTER"><B>Entidades (modelo JPA)</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">Usuario · Comprador · Vendedor · Administrador</TD></TR><TR><TD ALIGN="LEFT">Prenda · Calzado · Camiseta · Chamarra</TD></TR><TR><TD ALIGN="LEFT">Marca · Talla · Publicacion · Puja · Orden</TD></TR></TABLE>>];
+ Estrategias [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0f0" ALIGN="CENTER"><B>Estrategias de venta</B></TD></TR><HR/><TR><TD><FONT POINT-SIZE="6"> </FONT></TD></TR><HR/><TR><TD ALIGN="LEFT">TipoVenta · VentaDirecta · VentaPorOferta · Subasta</TD></TR><TR><TD ALIGN="LEFT">TipoVentaFactory · PrendaFactory</TD></TR></TABLE>>];
+ BD [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#eeeeee"><TR><TD><B>Base de datos</B><BR/>H2 (local) · MySQL en RDS (AWS)</TD></TR></TABLE>>];
+ Vistas [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8" BGCOLOR="#fff0e0"><TR><TD><B>Vistas Thymeleaf + Bootstrap 5</B><BR/>templates/*.html</TD></TR></TABLE>>];
+ Vistas -> HomeController [dir=back, arrowtail=vee, style=dashed, label=" Model "];
+ HomeController -> PublicacionService [arrowhead=vee];
+ HomeController -> CatalogoService [arrowhead=vee];
+ AuthController -> UsuarioService [arrowhead=vee];
+ PublicacionController -> PublicacionService [arrowhead=vee];
+ PublicacionController -> CatalogoService [arrowhead=vee];
+ PublicacionController -> UsuarioService [arrowhead=vee];
+ CuentaController -> PublicacionService [arrowhead=vee];
+ CuentaController -> UsuarioService [arrowhead=vee];
+ AdminController -> CatalogoService [arrowhead=vee];
+ AdminController -> PublicacionService [arrowhead=vee];
+ AdminController -> UsuarioService [arrowhead=vee];
+ SubastaScheduler -> PublicacionService [arrowhead=vee];
+ UsuarioService -> UsuarioRepository [arrowhead=vee];
+ UsuarioDetailsService -> UsuarioRepository [arrowhead=vee];
+ CatalogoService -> MarcaRepository [arrowhead=vee];
+ CatalogoService -> TallaRepository [arrowhead=vee];
+ CatalogoService -> PrendaRepository [arrowhead=vee];
+ PublicacionService -> PublicacionRepository [arrowhead=vee];
+ PublicacionService -> PujaRepository [arrowhead=vee];
+ PublicacionService -> OrdenRepository [arrowhead=vee];
+ PublicacionService -> MarcaRepository [arrowhead=vee];
+ PublicacionService -> TallaRepository [arrowhead=vee];
+ PublicacionService -> AlmacenArchivos [arrowhead=vee];
+ AlmacenLocal -> AlmacenArchivos [arrowhead=empty, style=dashed];
+ PublicacionService -> Estrategias [arrowhead=vee, style=dashed];
+ UsuarioRepository -> Entidades [arrowhead=vee, style=dashed];
+ MarcaRepository -> Entidades [arrowhead=vee, style=dashed];
+ TallaRepository -> Entidades [arrowhead=vee, style=dashed];
+ PrendaRepository -> Entidades [arrowhead=vee, style=dashed];
+ PublicacionRepository -> Entidades [arrowhead=vee, style=dashed];
+ PujaRepository -> Entidades [arrowhead=vee, style=dashed];
+ OrdenRepository -> Entidades [arrowhead=vee, style=dashed];
+ Entidades -> BD [arrowhead=vee, label=" JPA / Hibernate "];
+}

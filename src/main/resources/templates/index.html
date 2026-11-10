@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Catálogo')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="hero border-bottom py-5">
+    <div class="container">
+        <h1 class="display-5 fw-black text-uppercase fw-bold">Compra. Oferta. Subasta.</h1>
+        <p class="lead text-secondary mb-0">El mercado de streetwear y sneakers donde tú pones el precio.</p>
+    </div>
+</section>
+
+<main class="container py-4">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <!-- Filtros: categoría, marca, talla y tipo de venta -->
+    <form class="row g-2 mb-3" th:action="@{/}" method="get">
+        <input type="hidden" name="q" th:value="${q}">
+
+        <div class="col-6 col-md-3 col-lg">
+            <select class="form-select" name="categoria" aria-label="Categoría">
+                <option value="">Todas las categorías</option>
+                <option th:each="c : ${categorias}" th:value="${c}" th:text="${c.etiqueta}"
+                        th:selected="${c == categoriaSel}"></option>
+            </select>
+        </div>
+        <div class="col-6 col-md-3 col-lg">
+            <select class="form-select" name="marca" aria-label="Marca">
+                <option value="">Todas las marcas</option>
+                <option th:each="m : ${marcas}" th:value="${m.id}" th:text="${m.nombre}"
+                        th:selected="${m.id == marcaSel}"></option>
+            </select>
+        </div>
+        <div class="col-6 col-md-3 col-lg">
+            <select class="form-select" name="talla" aria-label="Talla">
+                <option value="">Todas las tallas</option>
+                <option th:each="t : ${tallas}" th:value="${t.id}" th:text="${t.etiqueta}"
+                        th:selected="${t.id == tallaSel}"></option>
+            </select>
+        </div>
+        <div class="col-6 col-md-3 col-lg">
+            <select class="form-select" name="tipo" aria-label="Tipo de venta">
+                <option value="">Todos los tipos de venta</option>
+                <option th:each="t : ${tipos}" th:value="${t}" th:text="${t.etiqueta}"
+                        th:selected="${t == tipoSel}"></option>
+            </select>
+        </div>
+        <div class="col-12 col-lg-auto d-flex gap-2">
+            <button type="submit" class="btn btn-danger">Filtrar</button>
+            <a th:href="@{/}" class="btn btn-outline-light">Limpiar</a>
+        </div>
+    </form>
+
+    <p class="text-secondary small"><span th:text="${#lists.size(publicaciones)}">0</span> prendas disponibles</p>
+
+    <!-- Cuadrícula de productos -->
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+        <div class="col" th:each="p : ${publicaciones}">
+            <a class="card card-producto h-100 text-decoration-none" th:href="@{/publicacion/{id}(id=${p.id})}">
+                <div class="img-box position-relative">
+                    <img th:if="${not #strings.isEmpty(p.prenda.imagenUrl)}"
+                         th:src="@{${p.prenda.imagenUrl}}" alt="" loading="lazy">
+                    <span class="ph" th:if="${#strings.isEmpty(p.prenda.imagenUrl)}"
+                          th:text="${#strings.substring(p.prenda.marca.nombre, 0, 1)}">F</span>
+                    <span class="badge text-bg-dark position-absolute top-0 start-0 m-2"
+                          th:text="${p.tipo.etiqueta}">Tipo</span>
+                </div>
+                <div class="card-body">
+                    <small class="marca-etiqueta" th:text="${p.prenda.marca.nombre}">Marca</small>
+                    <h3 class="h6 card-title mb-1" th:text="${p.prenda.nombre}">Nombre</h3>
+                    <p class="text-secondary small mb-2">
+                        <span th:text="${p.prenda.categoria.etiqueta}">Categoría</span> ·
+                        Talla <span th:text="${p.prenda.talla.etiqueta}">M</span>
+                    </p>
+                    <small class="d-block text-secondary" th:text="${p.etiquetaPrecio}">Precio</small>
+                    <div class="fs-5 fw-bold">
+                        <span th:replace="~{fragments/layout :: dinero(${p.precioActual})}">$0</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <p class="text-secondary text-center py-5" th:if="${#lists.isEmpty(publicaciones)}">
+        No encontramos prendas con esos filtros.
+    </p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

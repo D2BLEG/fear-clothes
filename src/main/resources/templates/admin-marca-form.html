@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Editar marca')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+            <div class="card bg-body-tertiary mt-3">
+                <div class="card-body p-4">
+                    <h1 class="h4 mb-3">Editar marca</h1>
+                    <form th:action="@{/admin/marcas/{id}/editar(id=${marca.id})}" method="post">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control"
+                                   th:value="${marca.nombre}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pais" class="form-label">País</label>
+                            <input type="text" id="pais" name="pais" class="form-control" th:value="${marca.pais}">
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger flex-grow-1">Guardar cambios</button>
+                            <a th:href="@{/admin}" class="btn btn-outline-light">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

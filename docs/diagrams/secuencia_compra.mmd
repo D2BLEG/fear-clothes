@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor C as Comprador
+    participant SEC as Spring Security
+    participant PC as PublicacionController
+    participant PS as PublicacionService
+    participant PUB as Publicacion
+    participant TV as TipoVenta (Strategy)
+    participant OR as OrdenRepository
+
+    C->>SEC: POST /publicacion/{id}/comprar (con sesión y token CSRF)
+    SEC->>PC: petición autenticada
+    PC->>PS: comprarAhora(id, comprador)
+    PS->>PUB: getTipoVenta()
+    PUB-->>PS: TipoVentaFactory.obtener(tipo)
+    PS->>TV: validarCompra(publicacion, comprador)
+    Note right of TV: Activa, comprador ≠ vendedor<br/>y permiteCompraInmediata()<br/>(DIRECTA y OFERTA sí, SUBASTA no)
+    alt compra permitida
+        TV-->>PS: OK
+        PS->>PUB: getPrecioActual()
+        PUB->>TV: precioActual(publicacion)
+        TV-->>PUB: precio
+        PS->>PUB: setEstado(VENDIDA)
+        PS->>OR: save(new Orden(comprador, publicacion, precio, "Pago simulado"))
+        PS-->>PC: Orden
+        PC-->>C: redirect /mis-compras + "Compra realizada"
+    else no permitida
+        TV-->>PS: ReglaNegocioException
+        PC-->>C: redirect al detalle + mensaje de error
+    end

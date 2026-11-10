@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mis ventas')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 my-3">
+        <h1 class="h3 mb-0">Mis publicaciones</h1>
+        <a th:href="@{/vender}" class="btn btn-danger">+ Vender una prenda</a>
+    </div>
+
+    <p class="text-secondary" th:if="${#lists.isEmpty(publicaciones)}">Todavía no has publicado prendas.</p>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(publicaciones)}">
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+            <tr><th>Prenda</th><th>Tipo</th><th>Precio</th><th>Ofertas</th><th>Estado</th><th></th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${publicaciones}">
+                <td><a th:href="@{/publicacion/{id}(id=${p.id})}" th:text="${p.prenda.resumen}">Prenda</a></td>
+                <td th:text="${p.tipo.etiqueta}">Tipo</td>
+                <td class="fw-bold"><span th:replace="~{fragments/layout :: dinero(${p.precioActual})}">$0</span></td>
+                <td th:text="${#lists.size(p.pujas)}">0</td>
+                <td><span class="badge" th:classappend="${p.estado.name() == 'ACTIVA'} ? 'text-bg-success' : 'text-bg-secondary'"
+                          th:text="${p.estado.etiqueta}">Estado</span></td>
+                <td class="text-end">
+                    <a class="btn btn-outline-light btn-sm" th:if="${p.estado.name() == 'ACTIVA'}"
+                       th:href="@{/publicacion/{id}/editar(id=${p.id})}">Editar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2 class="h4 mt-5">Ventas concretadas</h2>
+    <p class="text-secondary" th:if="${#lists.isEmpty(ordenes)}">Aún no tienes ventas.</p>
+
+    <div class="table-responsive" th:unless="${#lists.isEmpty(ordenes)}">
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+            <tr><th>Orden</th><th>Prenda</th><th>Comprador</th><th>Precio final</th><th>Fecha</th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${ordenes}">
+                <td th:text="'#' + ${o.id}">#1</td>
+                <td th:text="${o.publicacion.prenda.resumen}">Prenda</td>
+                <td th:text="${o.comprador.nombre}">Comprador</td>
+                <td class="fw-bold"><span th:replace="~{fragments/layout :: dinero(${o.precioFinal})}">$0</span></td>
+                <td th:text="${#temporals.format(o.fecha, 'dd/MM/yyyy HH:mm')}">fecha</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

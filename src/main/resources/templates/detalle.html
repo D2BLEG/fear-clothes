@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${p.prenda.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <a class="link-secondary text-decoration-none small" th:href="@{/}">← Volver al catálogo</a>
+
+    <div class="row g-4 mt-1">
+        <!-- Imagen -->
+        <div class="col-lg-6">
+            <div class="img-box img-box-lg">
+                <img th:if="${not #strings.isEmpty(p.prenda.imagenUrl)}"
+                     th:src="@{${p.prenda.imagenUrl}}" alt="">
+                <span class="ph" th:if="${#strings.isEmpty(p.prenda.imagenUrl)}"
+                      th:text="${#strings.substring(p.prenda.marca.nombre, 0, 1)}">F</span>
+            </div>
+        </div>
+
+        <!-- Información -->
+        <div class="col-lg-6">
+            <small class="marca-etiqueta" th:text="${p.prenda.marca.nombre}">Marca</small>
+            <h1 class="h2" th:text="${p.prenda.nombre}">Nombre</h1>
+
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge text-bg-secondary" th:text="${p.tipo.etiqueta}">Tipo</span>
+                <span class="badge text-bg-secondary" th:text="${p.prenda.categoria.etiqueta}">Categoría</span>
+                <span class="badge" th:classappend="${p.estado.name() == 'ACTIVA'} ? 'text-bg-success' : 'text-bg-danger'"
+                      th:text="${p.estado.etiqueta}">Estado</span>
+            </div>
+
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item bg-transparent d-flex justify-content-between">
+                    <span class="text-secondary">Talla</span><strong th:text="${p.prenda.talla.etiqueta}">M</strong>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between">
+                    <span class="text-secondary">Color</span><strong th:text="${p.prenda.color ?: '—'}">—</strong>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between">
+                    <span class="text-secondary">Condición</span><strong th:text="${p.prenda.condicion.etiqueta}">Nueva</strong>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between">
+                    <span class="text-secondary">Detalle</span><strong th:text="${p.prenda.detalleEspecifico}">—</strong>
+                </li>
+                <li class="list-group-item bg-transparent d-flex justify-content-between">
+                    <span class="text-secondary">Vendedor</span><strong th:text="${p.vendedor.nombre}">Vendedor</strong>
+                </li>
+            </ul>
+
+            <p class="text-secondary" th:if="${not #strings.isEmpty(p.prenda.descripcion)}"
+               th:text="${p.prenda.descripcion}">Descripción</p>
+
+            <!-- Precio -->
+            <div class="card bg-body-tertiary mb-3">
+                <div class="card-body">
+                    <small class="d-block text-secondary" th:text="${p.etiquetaPrecio}">Precio</small>
+                    <div class="display-6 fw-bold">
+                        <span th:replace="~{fragments/layout :: dinero(${p.precioActual})}">$0</span>
+                    </div>
+                    <p class="text-secondary small mb-0 mt-1"
+                       th:if="${p.tipo.name() == 'SUBASTA' and p.fechaCierre != null}">
+                        Cierra el <span th:text="${#temporals.format(p.fechaCierre, 'dd/MM/yyyy HH:mm')}"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Acciones de compra y oferta: solo si la publicación sigue activa -->
+            <div th:if="${p.estado.name() == 'ACTIVA'}">
+
+                <a th:if="${!autenticado}" th:href="@{/login}" class="btn btn-danger w-100">
+                    Inicia sesión para comprar u ofertar
+                </a>
+
+                <div class="alert alert-secondary" th:if="${esDueno}">Esta es tu publicación.</div>
+
+                <th:block th:if="${autenticado and !esDueno}">
+                    <form th:if="${p.tipoVenta.permiteCompraInmediata()}"
+                          th:action="@{/publicacion/{id}/comprar(id=${p.id})}" method="post" class="mb-3">
+                        <button type="submit" class="btn btn-danger btn-lg w-100">Comprar ahora</button>
+                    </form>
+
+                    <form th:if="${p.tipo.name() != 'DIRECTA'}"
+                          th:action="@{/publicacion/{id}/pujar(id=${p.id})}" method="post">
+                        <label for="monto" class="form-label text-secondary"
+                               th:text="${p.tipo.name() == 'SUBASTA'} ? 'Tu puja (MXN)' : 'Tu oferta (MXN)'">Oferta</label>
+                        <div class="input-group">
+                            <input type="number" id="monto" name="monto" class="form-control" min="1" step="1" required>
+                            <button type="submit" class="btn btn-outline-light"
+                                    th:text="${p.tipo.name() == 'SUBASTA'} ? 'Pujar' : 'Ofertar'">Ofertar</button>
+                        </div>
+                    </form>
+                </th:block>
+            </div>
+
+            <!-- Gestión: dueño o administrador -->
+            <div class="d-flex flex-wrap gap-2 mt-4 pt-3 border-top" th:if="${puedeGestionar}">
+                <a class="btn btn-outline-light btn-sm" th:if="${p.estado.name() == 'ACTIVA'}"
+                   th:href="@{/publicacion/{id}/editar(id=${p.id})}">Editar</a>
+
+                <form th:if="${p.estado.name() == 'ACTIVA'}"
+                      th:action="@{/publicacion/{id}/cerrar(id=${p.id})}" method="post"
+                      onsubmit="return confirm('¿Cerrar esta publicación? Ya no recibirá ofertas ni compras.')">
+                    <button type="submit" class="btn btn-outline-warning btn-sm">Cerrar publicación</button>
+                </form>
+
+                <form th:if="${#lists.isEmpty(p.pujas) and p.estado.name() != 'VENDIDA'}"
+                      th:action="@{/publicacion/{id}/eliminar(id=${p.id})}" method="post"
+                      onsubmit="return confirm('¿Eliminar definitivamente esta publicación?')">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ofertas / pujas -->
+    <section class="mt-5" th:if="${p.tipo.name() != 'DIRECTA'}">
+        <h2 class="h4" th:text="${p.tipo.name() == 'SUBASTA'} ? 'Pujas' : 'Ofertas recibidas'">Ofertas</h2>
+        <p class="text-secondary" th:if="${#lists.isEmpty(p.pujas)}">Todavía no hay ofertas.</p>
+        <div class="table-responsive" th:unless="${#lists.isEmpty(p.pujas)}">
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th th:if="${esDueno and p.tipo.name() == 'OFERTA'}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="puja : ${p.pujas}">
+                    <td class="fw-bold"><span th:replace="~{fragments/layout :: dinero(${puja.monto})}">$0</span></td>
+                    <td th:text="${#temporals.format(puja.fecha, 'dd/MM/yyyy HH:mm')}">fecha</td>
+                    <td th:if="${esDueno and p.tipo.name() == 'OFERTA' and p.estado.name() == 'ACTIVA'}" class="text-end">
+                        <form th:action="@{/publicacion/{id}/aceptar/{pujaId}(id=${p.id}, pujaId=${puja.id})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Aceptar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

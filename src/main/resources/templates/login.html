@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Iniciar sesión')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5 col-xl-4">
+            <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+            <div class="card bg-body-tertiary mt-3">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-3">Iniciar sesión</h1>
+
+                    <div class="alert alert-danger" th:if="${param.error}">Correo o contraseña incorrectos.</div>
+
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo</label>
+                            <input type="email" id="email" name="email" class="form-control" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Entrar</button>
+                    </form>
+
+                    <p class="text-secondary small mt-3 mb-0">
+                        ¿No tienes cuenta? <a th:href="@{/registro}">Regístrate</a>
+                    </p>
+                </div>
+            </div>
+
+            <details class="mt-3 text-secondary small">
+                <summary>Cuentas de prueba</summary>
+                <ul class="mt-2">
+                    <li>Admin: admin@fearclothes.com / admin123</li>
+                    <li>Vendedor: vendedor@fearclothes.com / vendedor123</li>
+                    <li>Comprador: comprador@fearclothes.com / comprador123</li>
+                </ul>
+            </details>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

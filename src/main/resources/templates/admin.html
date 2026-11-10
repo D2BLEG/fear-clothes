@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Administración')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 my-3">
+        <h1 class="h3 mb-0">Panel de administración</h1>
+        <a th:href="@{/admin/usuarios}" class="btn btn-outline-light">Gestionar usuarios</a>
+    </div>
+
+    <div class="row g-4">
+        <!-- Marcas -->
+        <section class="col-lg-6">
+            <h2 class="h5">Marcas</h2>
+            <form th:action="@{/admin/marcas}" method="post" class="input-group mb-2">
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" required>
+                <input type="text" name="pais" class="form-control" placeholder="País">
+                <button type="submit" class="btn btn-danger">Agregar</button>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover table-sm align-middle">
+                    <thead><tr><th>Marca</th><th>País</th><th></th></tr></thead>
+                    <tbody>
+                    <tr th:each="m : ${marcas}">
+                        <td th:text="${m.nombre}">Marca</td>
+                        <td th:text="${m.pais}">País</td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <a class="btn btn-outline-light btn-sm"
+                                   th:href="@{/admin/marcas/{id}/editar(id=${m.id})}">Editar</a>
+                                <form th:action="@{/admin/marcas/{id}/eliminar(id=${m.id})}" method="post"
+                                      onsubmit="return confirm('¿Eliminar esta marca?')">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tallas -->
+        <section class="col-lg-6">
+            <h2 class="h5">Tallas</h2>
+            <form th:action="@{/admin/tallas}" method="post" class="input-group mb-2">
+                <input type="text" name="etiqueta" class="form-control" placeholder="Ej. XXXL o 11 MX" required>
+                <button type="submit" class="btn btn-danger">Agregar</button>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover table-sm align-middle">
+                    <thead><tr><th>Talla</th><th></th></tr></thead>
+                    <tbody>
+                    <tr th:each="t : ${tallas}">
+                        <td th:text="${t.etiqueta}">Talla</td>
+                        <td class="text-end">
+                            <div class="d-inline-flex gap-1">
+                                <a class="btn btn-outline-light btn-sm"
+                                   th:href="@{/admin/tallas/{id}/editar(id=${t.id})}">Editar</a>
+                                <form th:action="@{/admin/tallas/{id}/eliminar(id=${t.id})}" method="post"
+                                      onsubmit="return confirm('¿Eliminar esta talla?')">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Moderación de publicaciones -->
+    <h2 class="h5 mt-5">Publicaciones activas</h2>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle">
+            <thead>
+            <tr><th>Prenda</th><th>Vendedor</th><th>Tipo</th><th>Precio</th><th></th></tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${publicaciones}">
+                <td><a th:href="@{/publicacion/{id}(id=${p.id})}" th:text="${p.prenda.resumen}">Prenda</a></td>
+                <td th:text="${p.vendedor.nombre}">Vendedor</td>
+                <td th:text="${p.tipo.etiqueta}">Tipo</td>
+                <td class="fw-bold"><span th:replace="~{fragments/layout :: dinero(${p.precioActual})}">$0</span></td>
+                <td class="text-end">
+                    <form th:action="@{/admin/publicaciones/{id}/cerrar(id=${p.id})}" method="post"
+                          onsubmit="return confirm('¿Cerrar esta publicación?')">
+                        <button type="submit" class="btn btn-outline-warning btn-sm">Cerrar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Editar publicación')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+            <a class="link-secondary text-decoration-none small" th:href="@{/publicacion/{id}(id=${p.id})}">← Volver a la publicación</a>
+            <h1 class="h3 my-3">Editar publicación</h1>
+
+            <p class="text-secondary">
+                Tipo de venta: <span class="badge text-bg-secondary" th:text="${p.tipo.etiqueta}">Tipo</span>
+                Categoría: <span class="badge text-bg-secondary" th:text="${p.prenda.categoria.etiqueta}">Categoría</span>
+                <span class="small">(no se pueden cambiar)</span>
+            </p>
+
+            <form th:action="@{/publicacion/{id}/editar(id=${p.id})}" th:object="${form}" method="post"
+                  enctype="multipart/form-data" class="card bg-body-tertiary card-body p-4" novalidate>
+
+                <!-- Valores que no se editan pero que el formulario necesita -->
+                <input type="hidden" th:field="*{categoria}">
+                <input type="hidden" th:field="*{tipo}">
+
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label for="nombre" class="form-label">Nombre de la prenda</label>
+                        <input type="text" th:field="*{nombre}" class="form-control"
+                               th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{nombre}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="marcaId" class="form-label">Marca</label>
+                        <select th:field="*{marcaId}" class="form-select"
+                                th:classappend="${#fields.hasErrors('marcaId')} ? 'is-invalid'">
+                            <option value="">Elige una marca</option>
+                            <option th:each="m : ${marcas}" th:value="${m.id}" th:text="${m.nombre}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{marcaId}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tallaId" class="form-label">Talla</label>
+                        <select th:field="*{tallaId}" class="form-select"
+                                th:classappend="${#fields.hasErrors('tallaId')} ? 'is-invalid'">
+                            <option value="">Elige una talla</option>
+                            <option th:each="t : ${tallas}" th:value="${t.id}" th:text="${t.etiqueta}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{tallaId}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="condicion" class="form-label">Condición</label>
+                        <select th:field="*{condicion}" class="form-select">
+                            <option th:each="c : ${condiciones}" th:value="${c}" th:text="${c.etiqueta}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="text" th:field="*{color}" class="form-control">
+                    </div>
+
+                    <!-- Solo el campo de la categoría de esta prenda -->
+                    <div class="col-md-6" th:if="${form.categoria.name() == 'CALZADO'}">
+                        <label for="silueta" class="form-label">Silueta (calzado)</label>
+                        <input type="text" th:field="*{silueta}" class="form-control">
+                    </div>
+                    <div class="col-md-6" th:if="${form.categoria.name() == 'CAMISETA'}">
+                        <label for="tipoCuello" class="form-label">Tipo de cuello (camiseta)</label>
+                        <input type="text" th:field="*{tipoCuello}" class="form-control">
+                    </div>
+                    <div class="col-md-6 d-flex align-items-end" th:if="${form.categoria.name() == 'CHAMARRA'}">
+                        <div class="form-check mb-2">
+                            <input type="checkbox" th:field="*{impermeable}" class="form-check-input">
+                            <label for="impermeable1" class="form-check-label">Es impermeable (chamarra)</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea th:field="*{descripcion}" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="precio" class="form-label">
+                            <span th:text="${p.etiquetaPrecio}">Precio</span> (MXN)</label>
+                        <input type="number" th:field="*{precio}" class="form-control" min="1" step="1"
+                               th:readonly="${tienePujas}"
+                               th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{precio}"></div>
+                        <div class="form-text" th:if="${tienePujas}">
+                            El precio no se puede cambiar porque la publicación ya tiene ofertas.
+                        </div>
+                    </div>
+
+                    <!-- Imagen actual + reemplazo opcional -->
+                    <div class="col-12">
+                        <label class="form-label d-block">Imagen actual</label>
+                        <div class="img-box rounded" style="max-width: 160px"
+                             th:if="${not #strings.isEmpty(p.prenda.imagenUrl)}">
+                            <img th:src="@{${p.prenda.imagenUrl}}" alt="">
+                        </div>
+                        <p class="text-secondary small mb-0" th:if="${#strings.isEmpty(p.prenda.imagenUrl)}">
+                            Esta prenda no tiene imagen.
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <label for="imagen" class="form-label">Cambiar la foto (JPG, PNG o WEBP, máx. 5 MB)</label>
+                        <input type="file" name="imagen" id="imagen" class="form-control"
+                               accept="image/jpeg,image/png,image/webp">
+                    </div>
+                    <div class="col-12">
+                        <label for="imagenUrl" class="form-label">…o una URL de imagen</label>
+                        <input type="text" th:field="*{imagenUrl}" class="form-control">
+                    </div>
+
+                    <div class="col-12 d-flex gap-2">
+                        <button type="submit" class="btn btn-danger flex-grow-1">Guardar cambios</button>
+                        <a class="btn btn-outline-light" th:href="@{/publicacion/{id}(id=${p.id})}">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

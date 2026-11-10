@@ -1,0 +1,47 @@
+/* Ajustes de marca FEAR Clothes sobre Bootstrap 5 (tema oscuro). Lo demás lo aporta Bootstrap. */
+
+:root,
+[data-bs-theme="dark"] {
+    --fear-rojo: #e10600;
+    --bs-danger: #e10600;
+    --bs-danger-rgb: 225, 6, 0;
+    --bs-body-bg: #0b0b0c;
+    --bs-body-bg-rgb: 11, 11, 12;
+    --bs-tertiary-bg: #151517;
+    --bs-tertiary-bg-rgb: 21, 21, 23;
+    --bs-border-color: #26262a;
+    --bs-link-color: #ff5a54;
+    --bs-link-hover-color: #ff837e;
+}
+
+/* Botón principal en rojo FEAR */
+.btn-danger {
+    --bs-btn-bg: var(--fear-rojo);
+    --bs-btn-border-color: var(--fear-rojo);
+    --bs-btn-hover-bg: #b80500;
+    --bs-btn-hover-border-color: #b80500;
+    --bs-btn-active-bg: #a00400;
+    --bs-btn-active-border-color: #a00400;
+    --bs-btn-disabled-bg: var(--fear-rojo);
+    --bs-btn-disabled-border-color: var(--fear-rojo);
+}
+
+.navbar-brand { font-weight: 900; letter-spacing: .08em; font-size: 1.4rem; }
+.navbar-brand span { font-weight: 600; letter-spacing: 0; text-transform: lowercase; margin-left: .15rem; }
+
+.hero { background: linear-gradient(135deg, #1a0000 0%, #000 60%); }
+
+.marca-etiqueta { color: var(--fear-rojo); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; }
+
+/* Tarjeta de producto */
+.card-producto { transition: transform .15s, border-color .15s; }
+.card-producto:hover { transform: translateY(-3px); border-color: var(--fear-rojo); }
+
+/* Contenedor cuadrado para la foto de la prenda */
+.img-box { aspect-ratio: 1 / 1; background: #1d1d20; display: grid; place-items: center; overflow: hidden; }
+.img-box img { width: 100%; height: 100%; object-fit: cover; }
+.img-box .ph { font-size: 4rem; font-weight: 900; color: #34343a; }
+.img-box-lg { border-radius: var(--bs-border-radius-lg); }
+.img-box-lg .ph { font-size: 8rem; }
+
+.vista-previa { max-width: 220px; }

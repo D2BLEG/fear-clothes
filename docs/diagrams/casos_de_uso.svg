@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1840" height="1680" viewBox="0 0 1840 1680" font-family="Helvetica, Arial, DejaVu Sans, sans-serif">
+<defs>
+<marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="12" markerHeight="12" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#555" stroke-width="1.6"/></marker>
+<marker id="tri" viewBox="0 0 14 14" refX="13" refY="7" markerWidth="14" markerHeight="14" orient="auto"><path d="M1 1 L13 7 L1 13 Z" fill="white" stroke="#1f3a5f" stroke-width="1.6"/></marker>
+</defs>
+<rect width="1840" height="1680" fill="white"/>
+<text x="920.0" y="48" text-anchor="middle" font-size="30" font-weight="bold" fill="#111">FEAR Clothes — Diagrama de casos de uso</text>
+<rect x="340" y="90" width="1190" height="1495" rx="22" fill="#fbfcfe" stroke="#1f3a5f" stroke-width="3"/>
+<text x="1506" y="126" text-anchor="end" font-size="22" font-weight="bold" fill="#1f3a5f">Sistema FEAR Clothes</text>
+<line x1="178" y1="247" x2="570" y2="130" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="247" x2="570" y2="208" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="247" x2="570" y2="286" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="247" x2="570" y2="364" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="581" x2="570" y2="464" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="581" x2="570" y2="542" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="581" x2="570" y2="620" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="581" x2="570" y2="698" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="954" x2="570" y2="798" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="954" x2="570" y2="876" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="954" x2="570" y2="1032" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="954" x2="570" y2="1110" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="954" x2="570" y2="1188" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="1397" x2="570" y2="1280" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="1397" x2="570" y2="1358" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="1397" x2="570" y2="1436" stroke="#444" stroke-width="1.6"/>
+<line x1="178" y1="1397" x2="570" y2="1514" stroke="#444" stroke-width="1.6"/>
+<line x1="1672" y1="1000" x2="1450" y2="1000" stroke="#444" stroke-width="1.6"/>
+<ellipse cx="760" cy="130" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="135" text-anchor="middle" font-size="16" fill="#111">Registrarse</text>
+<ellipse cx="760" cy="208" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="213" text-anchor="middle" font-size="16" fill="#111">Iniciar sesión</text>
+<ellipse cx="760" cy="286" rx="190" ry="38" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="282" text-anchor="middle" font-size="16" fill="#111">Buscar y filtrar catálogo</text>
+<text x="760" y="300" text-anchor="middle" font-size="16" fill="#111">(marca, talla, categoría, tipo)</text>
+<ellipse cx="760" cy="364" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="369" text-anchor="middle" font-size="16" fill="#111">Ver detalle de prenda</text>
+<ellipse cx="760" cy="464" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="469" text-anchor="middle" font-size="16" fill="#111">Comprar ahora</text>
+<ellipse cx="760" cy="542" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="547" text-anchor="middle" font-size="16" fill="#111">Ofertar / pujar</text>
+<ellipse cx="760" cy="620" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="625" text-anchor="middle" font-size="16" fill="#111">Ver mis compras</text>
+<ellipse cx="760" cy="698" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="703" text-anchor="middle" font-size="16" fill="#111">Editar mi perfil</text>
+<ellipse cx="760" cy="798" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="803" text-anchor="middle" font-size="16" fill="#111">Aceptar oferta</text>
+<ellipse cx="760" cy="876" rx="190" ry="38" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="872" text-anchor="middle" font-size="16" fill="#111">Publicar prenda</text>
+<text x="760" y="890" text-anchor="middle" font-size="16" fill="#111">(venta directa, oferta o subasta)</text>
+<ellipse cx="760" cy="954" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="959" text-anchor="middle" font-size="16" fill="#111">Subir imagen</text>
+<ellipse cx="760" cy="1032" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1037" text-anchor="middle" font-size="16" fill="#111">Editar publicación</text>
+<ellipse cx="760" cy="1110" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1115" text-anchor="middle" font-size="16" fill="#111">Eliminar publicación</text>
+<ellipse cx="760" cy="1188" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1193" text-anchor="middle" font-size="16" fill="#111">Ver mis ventas</text>
+<ellipse cx="760" cy="1280" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1285" text-anchor="middle" font-size="16" fill="#111">Administrar marcas (CRUD)</text>
+<ellipse cx="760" cy="1358" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1363" text-anchor="middle" font-size="16" fill="#111">Administrar tallas (CRUD)</text>
+<ellipse cx="760" cy="1436" rx="190" ry="38" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1432" text-anchor="middle" font-size="16" fill="#111">Administrar usuarios</text>
+<text x="760" y="1450" text-anchor="middle" font-size="16" fill="#111">(activar / desactivar)</text>
+<ellipse cx="760" cy="1514" rx="190" ry="30" fill="#e3edf9" stroke="#1f3a5f" stroke-width="2"/>
+<text x="760" y="1519" text-anchor="middle" font-size="16" fill="#111">Cerrar publicaciones</text>
+<ellipse cx="1300" cy="464" rx="150" ry="30" fill="#ffe9c2" stroke="#1f3a5f" stroke-width="2"/>
+<text x="1300" y="469" text-anchor="middle" font-size="16" fill="#111">Generar orden de compra</text>
+<ellipse cx="1300" cy="1000" rx="150" ry="38" fill="#ffe9c2" stroke="#1f3a5f" stroke-width="2"/>
+<text x="1300" y="996" text-anchor="middle" font-size="16" fill="#111">Cerrar subastas vencidas</text>
+<text x="1300" y="1014" text-anchor="middle" font-size="16" fill="#111">(automático)</text>
+<path d="M950,464 C1050,454 1050,228 950,208" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<path d="M950,542 C1020,532 1020,228 950,208" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1045" y="330" text-anchor="middle" font-size="14" font-style="italic" fill="#444" stroke="white" stroke-width="5" paint-order="stroke">«include»</text>
+<path d="M950,464 L1148,464" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1092" y="452" text-anchor="middle" font-size="14" font-style="italic" fill="#444" stroke="white" stroke-width="5" paint-order="stroke">«include»</text>
+<path d="M950,798 L1267,493" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1133" y="656" text-anchor="middle" font-size="14" font-style="italic" fill="#444" stroke="white" stroke-width="5" paint-order="stroke">«include»</text>
+<path d="M1300,962 L1300,496" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="1350" y="730" text-anchor="middle" font-size="14" font-style="italic" fill="#444" stroke="white" stroke-width="5" paint-order="stroke">«include»</text>
+<path d="M760,924 L760,916" fill="none" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="818" y="919" text-anchor="middle" font-size="14" font-style="italic" fill="#444" stroke="white" stroke-width="5" paint-order="stroke">«extend»</text>
+<g stroke="#1f3a5f" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="140" cy="199" r="16" fill="white"/><line x1="140" y1="215" x2="140" y2="261"/><line x1="110" y1="231" x2="170" y2="231"/><line x1="140" y1="261" x2="116" y2="299"/><line x1="140" y1="261" x2="164" y2="299"/></g><text x="140" y="325" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">Visitante</text>
+<g stroke="#1f3a5f" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="140" cy="533" r="16" fill="white"/><line x1="140" y1="549" x2="140" y2="595"/><line x1="110" y1="565" x2="170" y2="565"/><line x1="140" y1="595" x2="116" y2="633"/><line x1="140" y1="595" x2="164" y2="633"/></g><text x="140" y="659" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">Comprador</text>
+<g stroke="#1f3a5f" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="140" cy="906" r="16" fill="white"/><line x1="140" y1="922" x2="140" y2="968"/><line x1="110" y1="938" x2="170" y2="938"/><line x1="140" y1="968" x2="116" y2="1006"/><line x1="140" y1="968" x2="164" y2="1006"/></g><text x="140" y="1032" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">Vendedor</text>
+<g stroke="#1f3a5f" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="140" cy="1349" r="16" fill="white"/><line x1="140" y1="1365" x2="140" y2="1411"/><line x1="110" y1="1381" x2="170" y2="1381"/><line x1="140" y1="1411" x2="116" y2="1449"/><line x1="140" y1="1411" x2="164" y2="1449"/></g><text x="140" y="1475" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">Administrador</text>
+<g stroke="#7a4a00" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="1710" cy="952" r="16" fill="white"/><line x1="1710" y1="968" x2="1710" y2="1014"/><line x1="1680" y1="984" x2="1740" y2="984"/><line x1="1710" y1="1014" x2="1686" y2="1052"/><line x1="1710" y1="1014" x2="1734" y2="1052"/></g><text x="1710" y="1078" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">Sistema</text><text x="1710" y="1098" text-anchor="middle" font-size="18" font-weight="bold" fill="#111">(temporizador)</text>
+<path d="M140,498 L140,356" fill="none" stroke="#1f3a5f" stroke-width="2" marker-end="url(#tri)"/>
+<text x="152" y="430" font-size="14" fill="#1f3a5f" font-style="italic" stroke="white" stroke-width="4" paint-order="stroke">es un</text>
+<path d="M140,880 L140,696" fill="none" stroke="#1f3a5f" stroke-width="2" marker-end="url(#tri)"/>
+<text x="152" y="790" font-size="14" fill="#1f3a5f" font-style="italic" stroke="white" stroke-width="4" paint-order="stroke">es un</text>
+<path d="M108,1338 C20,1200 20,420 98,246" fill="none" stroke="#1f3a5f" stroke-width="2" marker-end="url(#tri)"/>
+<text x="34" y="800" font-size="14" fill="#1f3a5f" font-style="italic" stroke="white" stroke-width="4" paint-order="stroke">es un</text>
+<g font-size="14" fill="#333"><rect x="340" y="1603" width="22" height="14" fill="#ffe9c2" stroke="#1f3a5f"/><text x="370" y="1615">Casos de uso internos del sistema (no los inicia un usuario directamente)</text><line x1="900" y1="1610" x2="950" y2="1610" stroke="#555" stroke-width="1.6" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="960" y="1615">include / extend</text><path d="M1120,1610 L1170,1610" stroke="#1f3a5f" stroke-width="2" marker-end="url(#tri)"/><text x="1180" y="1615">generalización de actores</text></g>
+</svg>

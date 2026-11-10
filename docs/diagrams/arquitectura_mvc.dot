@@ -1,0 +1,36 @@
+digraph ARQ {
+ graph [rankdir=LR, fontname="Helvetica", bgcolor="white", pad=0.4, dpi=170, nodesep=0.35, ranksep=0.85, compound=true, labelloc=t, fontsize=22,
+        label=<<B>FEAR Clothes — Arquitectura MVC en capas (Spring Boot)</B>>];
+ node [shape=plain, fontname="Helvetica", fontsize=12];
+ edge [fontname="Helvetica", fontsize=11, color="#333333", penwidth=1.5];
+ nav [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#eeeeee"><B>Navegador</B></TD></TR><TR><TD ALIGN="LEFT">HTML + CSS + Bootstrap 5</TD></TR><TR><TD ALIGN="LEFT">Formularios (GET / POST)</TD></TR></TABLE>>];
+ sec [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#f6d9d5"><B>Spring Security</B></TD></TR><TR><TD ALIGN="LEFT">Login por correo (BCrypt)</TD></TR><TR><TD ALIGN="LEFT">Roles: COMPRADOR, VENDEDOR, ADMIN</TD></TR><TR><TD ALIGN="LEFT">Protección CSRF</TD></TR></TABLE>>];
+ subgraph cluster_c { label=<<B>CONTROLADOR (C)</B>>; style="rounded,filled"; fillcolor="#eaf2ff"; color="#3d6fb6"; fontsize=15;
+  ctrl [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff"><B>Spring MVC Controllers</B></TD></TR><TR><TD ALIGN="LEFT">HomeController</TD></TR><TR><TD ALIGN="LEFT">AuthController</TD></TR><TR><TD ALIGN="LEFT">PublicacionController</TD></TR><TR><TD ALIGN="LEFT">CuentaController</TD></TR><TR><TD ALIGN="LEFT">AdminController</TD></TR><TR><TD ALIGN="LEFT">ManejadorErrores</TD></TR></TABLE>>];
+  dto [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#cfe3ff"><B>DTO + validación</B></TD></TR><TR><TD ALIGN="LEFT">RegistroForm</TD></TR><TR><TD ALIGN="LEFT">PublicacionForm</TD></TR><TR><TD ALIGN="LEFT">PerfilForm</TD></TR></TABLE>>];
+ }
+ subgraph cluster_s { label=<<B>LÓGICA DE NEGOCIO</B>>; labeljust=r; style="rounded,filled"; fillcolor="#eef8ee"; color="#3f8f46"; fontsize=15;
+  serv [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0d9"><B>Services (@Transactional)</B></TD></TR><TR><TD ALIGN="LEFT">UsuarioService</TD></TR><TR><TD ALIGN="LEFT">PublicacionService</TD></TR><TR><TD ALIGN="LEFT">CatalogoService</TD></TR><TR><TD ALIGN="LEFT">SubastaScheduler (@Scheduled)</TD></TR></TABLE>>];
+  estr [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#d9f0f0"><B>Patrones y reglas</B></TD></TR><TR><TD ALIGN="LEFT">Strategy: TipoVenta</TD></TR><TR><TD ALIGN="LEFT">Template Method: TipoVentaBase</TD></TR><TR><TD ALIGN="LEFT">Factory: TipoVentaFactory, PrendaFactory</TD></TR></TABLE>>];
+ }
+ subgraph cluster_m { label=<<B>MODELO (M)</B>>; style="rounded,filled"; fillcolor="#fff7e6"; color="#c98a00"; fontsize=15;
+  repo [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#fff2b3"><B>Repositories (Spring Data JPA)</B></TD></TR><TR><TD ALIGN="LEFT">UsuarioRepository</TD></TR><TR><TD ALIGN="LEFT">MarcaRepository / TallaRepository</TD></TR><TR><TD ALIGN="LEFT">PrendaRepository</TD></TR><TR><TD ALIGN="LEFT">PublicacionRepository</TD></TR><TR><TD ALIGN="LEFT">PujaRepository / OrdenRepository</TD></TR></TABLE>>];
+  ent [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#f6d9d5"><B>Entidades JPA</B></TD></TR><TR><TD ALIGN="LEFT">Usuario → Comprador, Vendedor, Administrador</TD></TR><TR><TD ALIGN="LEFT">Prenda → Calzado, Camiseta, Chamarra</TD></TR><TR><TD ALIGN="LEFT">Marca, Talla, Publicacion, Puja, Orden</TD></TR></TABLE>>];
+ }
+ bd [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#e0e0e0"><B>Base de datos relacional</B></TD></TR><TR><TD ALIGN="LEFT">H2 en archivo (local)</TD></TR><TR><TD ALIGN="LEFT">MySQL en AWS RDS (perfil aws)</TD></TR><TR><TD ALIGN="LEFT">13 tablas</TD></TR></TABLE>>];
+ subgraph cluster_v { label=<<B>VISTA (V)</B>>; style="rounded,filled"; fillcolor="#fff0e0"; color="#d9822b"; fontsize=15;
+  vista [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#ffe0bf"><B>Thymeleaf + Bootstrap 5</B></TD></TR><TR><TD ALIGN="LEFT">templates/*.html</TD></TR><TR><TD ALIGN="LEFT">fragments/layout.html</TD></TR><TR><TD ALIGN="LEFT">static/css/estilos.css</TD></TR><TR><TD ALIGN="LEFT">Bootstrap vía WebJar</TD></TR></TABLE>>];
+ }
+ alm [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#333333" BGCOLOR="#ffffff"><TR><TD BGCOLOR="#ececf7"><B>Almacenamiento de imágenes</B></TD></TR><TR><TD ALIGN="LEFT">AlmacenArchivos (interfaz)</TD></TR><TR><TD ALIGN="LEFT">AlmacenLocal → carpeta uploads/</TD></TR><TR><TD ALIGN="LEFT">Futuro: AlmacenS3 (AWS S3)</TD></TR></TABLE>>];
+ nav -> sec [label=" 1. petición HTTP "];
+ sec -> ctrl [label=" 2. autoriza "];
+ ctrl -> serv [label=" 3. llama "];
+ serv -> repo [label=" 4. consulta "];
+ repo -> ent [label=" mapea "];
+ ent -> bd [label=" JPA / Hibernate "];
+ ctrl -> dto [dir=both, arrowtail=vee, style=dashed, label=" valida "];
+ serv -> estr [style=dashed, label=" aplica "];
+ serv -> alm [style=dashed, label=" guarda fotos "];
+ ctrl -> vista [style=dashed, label=" 5. Model → plantilla "];
+ vista -> nav [style=dashed, label=" 6. HTML renderizado "];
+}

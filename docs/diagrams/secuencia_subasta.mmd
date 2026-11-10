@@ -1,0 +1,46 @@
+sequenceDiagram
+    autonumber
+    actor C as Comprador
+    participant PC as PublicacionController
+    participant PS as PublicacionService
+    participant TV as Subasta (TipoVenta)
+    participant PR as PublicacionRepository
+    participant PJ as PujaRepository
+    participant SC as SubastaScheduler
+    participant OR as OrdenRepository
+
+    rect rgb(235, 243, 255)
+    Note over C,PJ: Puja en una subasta
+    C->>PC: POST /publicacion/{id}/pujar (monto)
+    PC->>PS: pujar(id, postor, monto)
+    PS->>PR: findById(id)
+    PR-->>PS: Publicacion
+    PS->>TV: validarPuja(publicacion, postor, monto)
+    Note right of TV: TipoVentaBase.validarPuja() (Template Method):<br/>activa, no es el vendedor, monto > 0,<br/>validarMonto(): no vencida y monto ≥ mejor puja + $50
+    alt puja válida
+        TV-->>PS: OK
+        PS->>PJ: save(new Puja(publicacion, postor, monto))
+        PS-->>PC: Puja
+        PC-->>C: redirect + mensaje "Tu oferta fue registrada"
+    else regla violada
+        TV-->>PS: ReglaNegocioException
+        PS-->>PC: excepción
+        PC-->>C: redirect + mensaje de error
+    end
+    end
+
+    rect rgb(255, 245, 225)
+    Note over SC,OR: Cierre automático (cada 60 s)
+    loop cada minuto
+        SC->>PS: cerrarSubastasVencidas()
+        PS->>PR: findByEstadoAndTipoAndFechaCierreBefore(ACTIVA, SUBASTA, ahora)
+        PR-->>PS: subastas vencidas
+        alt tiene pujas
+            Note over PS: ganadora = getPujaMasAlta()
+            PS->>OR: save(new Orden(postor ganador, publicacion, monto))
+            Note over PS: estado = VENDIDA
+        else sin pujas
+            Note over PS: estado = CERRADA (sin venta)
+        end
+    end
+    end

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' | FEAR Clothes'">FEAR Clothes</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<body>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg bg-black border-bottom sticky-top" th:fragment="navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">FEAR<span class="text-danger">clothes</span></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal" aria-controls="menuPrincipal"
+                aria-expanded="false" aria-label="Mostrar menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <form class="d-flex flex-grow-1 my-2 my-lg-0 mx-lg-4" role="search" th:action="@{/}" method="get">
+                <input class="form-control rounded-pill" type="search" name="q" th:value="${q}"
+                       placeholder="Busca marcas, prendas, sneakers..." aria-label="Buscar">
+            </form>
+
+            <ul class="navbar-nav ms-lg-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item"><a class="nav-link" th:href="@{/}">Catálogo</a></li>
+                <li class="nav-item" sec:authorize="hasRole('VENDEDOR')">
+                    <a class="nav-link" th:href="@{/vender}">Vender</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('VENDEDOR')">
+                    <a class="nav-link" th:href="@{/mis-ventas}">Mis ventas</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/mis-compras}">Mis compras</a>
+                </li>
+
+                <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">Admin</a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                        <li><a class="dropdown-item" th:href="@{/admin}">Catálogo y moderación</a></li>
+                        <li><a class="dropdown-item" th:href="@{/admin/usuarios}">Usuarios</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/login}">Entrar</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-danger btn-sm" th:href="@{/registro}">Crear cuenta</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+                        <a class="navbar-text small text-decoration-none" th:href="@{/perfil}"
+                           title="Mi perfil" sec:authentication="name">usuario</a>
+                        <button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Mensajes flash: éxito y error -->
+<div th:fragment="mensajes">
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" th:if="${mensaje}">
+        <span th:text="${mensaje}">Listo</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" th:if="${error}">
+        <span th:text="${error}">Error</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+</div>
+
+<!-- Pie de página + JavaScript de Bootstrap (menú colapsable, dropdowns y alertas) -->
+<footer class="border-top py-4 mt-5 text-center text-secondary small" th:fragment="footer">
+    <p class="mb-0">© FEAR Clothes · Proyecto de Programación Orientada a Objetos · Pagos simulados</p>
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</footer>
+
+<!-- Muestra un monto en pesos: th:replace="~{fragments/layout :: dinero(${valor})}" -->
+<span th:fragment="dinero(valor)"
+      th:text="'$' + ${#numbers.formatDecimal(valor, 1, 'COMMA', 0, 'POINT')} + ' MXN'">$0 MXN</span>
+
+</body>
+</html>

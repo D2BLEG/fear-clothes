@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mi perfil')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+            <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+            <div class="card bg-body-tertiary mt-3">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-1">Mi perfil</h1>
+                    <p class="text-secondary small mb-4">
+                        <span th:text="${usuario.email}">correo</span> ·
+                        <span class="badge text-bg-secondary" th:text="${usuario.rol}">ROL</span>
+                    </p>
+
+                    <form th:action="@{/perfil}" th:object="${form}" method="post" novalidate>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" th:field="*{nombre}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'">
+                            <div class="invalid-feedback" th:errors="*{nombre}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Nueva contraseña</label>
+                            <input type="password" th:field="*{password}" class="form-control"
+                                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                                   placeholder="Déjala vacía para conservar la actual" autocomplete="new-password">
+                            <div class="invalid-feedback" th:errors="*{password}"></div>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Guardar cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

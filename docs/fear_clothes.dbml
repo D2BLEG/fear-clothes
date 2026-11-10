@@ -1,0 +1,162 @@
+// FEAR Clothes - Modelo de base de datos en DBML (https://dbdiagram.io)
+// Pegar este contenido en dbdiagram.io para ver el diagrama.
+// Herencia JPA (JOINED): usuarios -> compradores/vendedores/administradores
+//                        prendas  -> calzados/camisetas/chamarras
+
+Project fear_clothes {
+  database_type: 'MySQL'
+  Note: 'Marketplace de ropa y sneakers: venta directa, ofertas (bid/ask) y subastas'
+}
+
+Enum categoria_prenda {
+  CALZADO
+  CAMISETA
+  CHAMARRA
+}
+
+Enum condicion_prenda {
+  NUEVA
+  COMO_NUEVA
+  USADA
+}
+
+Enum tipo_publicacion {
+  DIRECTA [note: 'Precio fijo']
+  OFERTA  [note: 'Precio de venta (ask) + ofertas (bids)']
+  SUBASTA [note: 'Gana la puja más alta al cierre']
+}
+
+Enum estado_publicacion {
+  ACTIVA
+  VENDIDA
+  CERRADA
+}
+
+// ---------------------------------------------------------------- usuarios
+Table usuarios {
+  id bigint [pk, increment]
+  nombre varchar(255) [not null]
+  email varchar(255) [not null, unique]
+  password varchar(255) [not null, note: 'Hash BCrypt']
+  activo boolean [not null, default: true]
+
+  Note: 'Superclase abstracta Usuario'
+}
+
+Table compradores {
+  id bigint [pk, note: 'PK y FK a usuarios.id']
+  Note: 'Subclase Comprador'
+}
+
+Table vendedores {
+  id bigint [pk, note: 'PK y FK a usuarios.id']
+  nombre_tienda varchar(255)
+  Note: 'Subclase Vendedor'
+}
+
+Table administradores {
+  id bigint [pk, note: 'PK y FK a usuarios.id']
+  Note: 'Subclase Administrador'
+}
+
+// ---------------------------------------------------------------- catálogos
+Table marcas {
+  id bigint [pk, increment]
+  nombre varchar(255) [not null, unique]
+  pais varchar(255)
+}
+
+Table tallas {
+  id bigint [pk, increment]
+  etiqueta varchar(255) [not null, unique, note: 'S, M, L... u 8 MX, 9 MX...']
+}
+
+// ---------------------------------------------------------------- prendas
+Table prendas {
+  id bigint [pk, increment]
+  nombre varchar(255) [not null]
+  descripcion varchar(1000)
+  color varchar(255)
+  imagen_url varchar(255) [note: 'Ruta /img, /uploads o URL externa']
+  categoria categoria_prenda [not null]
+  condicion condicion_prenda [not null]
+  marca_id bigint [not null]
+  talla_id bigint [not null]
+
+  Note: 'Superclase abstracta Prenda'
+}
+
+Table calzados {
+  id bigint [pk, note: 'PK y FK a prendas.id']
+  silueta varchar(255)
+}
+
+Table camisetas {
+  id bigint [pk, note: 'PK y FK a prendas.id']
+  tipo_cuello varchar(255)
+}
+
+Table chamarras {
+  id bigint [pk, note: 'PK y FK a prendas.id']
+  impermeable boolean
+}
+
+// ---------------------------------------------------------------- ventas
+Table publicaciones {
+  id bigint [pk, increment]
+  prenda_id bigint [not null, unique]
+  vendedor_id bigint [not null]
+  tipo tipo_publicacion [not null]
+  precio decimal(12,2) [not null, note: 'Precio fijo, ask o precio inicial de subasta']
+  fecha_cierre datetime [note: 'Solo subastas']
+  estado estado_publicacion [not null, default: 'ACTIVA']
+  fecha_creacion datetime [not null]
+
+  indexes {
+    (estado, tipo) [name: 'ix_publicaciones_estado_tipo']
+  }
+}
+
+Table pujas {
+  id bigint [pk, increment]
+  publicacion_id bigint [not null]
+  postor_id bigint [not null]
+  monto decimal(12,2) [not null]
+  fecha datetime [not null]
+
+  indexes {
+    (publicacion_id, monto) [name: 'ix_pujas_publicacion_monto']
+  }
+}
+
+Table ordenes {
+  id bigint [pk, increment]
+  comprador_id bigint [not null]
+  publicacion_id bigint [not null, unique]
+  precio_final decimal(12,2) [not null]
+  metodo_pago varchar(255) [note: 'Pago simulado']
+  fecha datetime [not null]
+}
+
+// ---------------------------------------------------------------- relaciones
+// Herencia (1 a 0..1)
+Ref: compradores.id - usuarios.id [delete: cascade]
+Ref: vendedores.id - usuarios.id [delete: cascade]
+Ref: administradores.id - usuarios.id [delete: cascade]
+Ref: calzados.id - prendas.id [delete: cascade]
+Ref: camisetas.id - prendas.id [delete: cascade]
+Ref: chamarras.id - prendas.id [delete: cascade]
+
+// Prenda
+Ref: prendas.marca_id > marcas.id [delete: restrict]
+Ref: prendas.talla_id > tallas.id [delete: restrict]
+
+// Publicaciones
+Ref: publicaciones.prenda_id - prendas.id [delete: restrict]
+Ref: publicaciones.vendedor_id > usuarios.id [delete: restrict]
+
+// Pujas y órdenes
+Ref: pujas.publicacion_id > publicaciones.id [delete: cascade]
+Ref: pujas.postor_id > usuarios.id [delete: restrict]
+Ref: ordenes.comprador_id > usuarios.id [delete: restrict]
+Ref: ordenes.publicacion_id - publicaciones.id [delete: restrict]

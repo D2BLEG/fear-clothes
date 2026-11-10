@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Vender una prenda')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+            <h1 class="h3 my-3">Vender una prenda</h1>
+
+            <form th:action="@{/vender}" th:object="${form}" method="post" enctype="multipart/form-data"
+                  class="card bg-body-tertiary card-body p-4" novalidate>
+                <div class="row g-3">
+
+                    <div class="col-12">
+                        <label for="nombre" class="form-label">Nombre de la prenda</label>
+                        <input type="text" th:field="*{nombre}" class="form-control"
+                               th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid'"
+                               placeholder="Ej. Air Jordan 1 Retro High">
+                        <div class="invalid-feedback" th:errors="*{nombre}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="categoria" class="form-label">Categoría</label>
+                        <select th:field="*{categoria}" class="form-select">
+                            <option th:each="c : ${categorias}" th:value="${c}" th:text="${c.etiqueta}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="condicion" class="form-label">Condición</label>
+                        <select th:field="*{condicion}" class="form-select">
+                            <option th:each="c : ${condiciones}" th:value="${c}" th:text="${c.etiqueta}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="marcaId" class="form-label">Marca</label>
+                        <select th:field="*{marcaId}" class="form-select"
+                                th:classappend="${#fields.hasErrors('marcaId')} ? 'is-invalid'">
+                            <option value="">Elige una marca</option>
+                            <option th:each="m : ${marcas}" th:value="${m.id}" th:text="${m.nombre}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{marcaId}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tallaId" class="form-label">Talla</label>
+                        <select th:field="*{tallaId}" class="form-select"
+                                th:classappend="${#fields.hasErrors('tallaId')} ? 'is-invalid'">
+                            <option value="">Elige una talla</option>
+                            <option th:each="t : ${tallas}" th:value="${t.id}" th:text="${t.etiqueta}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:errors="*{tallaId}"></div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="color" class="form-label">Color</label>
+                        <input type="text" th:field="*{color}" class="form-control" placeholder="Ej. Negro/Rojo">
+                    </div>
+
+                    <!-- Campos propios de cada categoría -->
+                    <div class="col-md-6 solo-calzado">
+                        <label for="silueta" class="form-label">Silueta (calzado)</label>
+                        <input type="text" th:field="*{silueta}" class="form-control" placeholder="Ej. High, Low, Mid">
+                    </div>
+                    <div class="col-md-6 solo-camiseta">
+                        <label for="tipoCuello" class="form-label">Tipo de cuello (camiseta)</label>
+                        <input type="text" th:field="*{tipoCuello}" class="form-control" placeholder="Ej. Redondo, V">
+                    </div>
+                    <div class="col-md-6 solo-chamarra d-flex align-items-end">
+                        <div class="form-check mb-2">
+                            <input type="checkbox" th:field="*{impermeable}" class="form-check-input">
+                            <label for="impermeable1" class="form-check-label">Es impermeable (chamarra)</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea th:field="*{descripcion}" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="imagen" class="form-label">Foto de la prenda (JPG, PNG o WEBP, máx. 5 MB)</label>
+                        <input type="file" name="imagen" id="imagen" class="form-control"
+                               accept="image/jpeg,image/png,image/webp">
+                        <img id="vista-previa" class="vista-previa img-thumbnail mt-2" alt="" style="display:none">
+                    </div>
+                    <div class="col-12">
+                        <label for="imagenUrl" class="form-label">…o pega la URL de una imagen (opcional)</label>
+                        <input type="url" th:field="*{imagenUrl}" class="form-control" placeholder="https://...">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="tipo" class="form-label">Tipo de venta</label>
+                        <select th:field="*{tipo}" class="form-select">
+                            <option th:each="t : ${tipos}" th:value="${t}" th:text="${t.etiqueta}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="precio" class="form-label">Precio (MXN)
+                            <span class="text-secondary small">(inicial si es subasta)</span></label>
+                        <input type="number" th:field="*{precio}" class="form-control" min="1" step="1"
+                               th:classappend="${#fields.hasErrors('precio')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{precio}"></div>
+                    </div>
+
+                    <div class="col-md-6 solo-subasta">
+                        <label for="duracionDias" class="form-label">Duración de la subasta (días)</label>
+                        <input type="number" th:field="*{duracionDias}" class="form-control" min="1" max="14">
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-danger w-100">Publicar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script>
+    // Muestra solo los campos que aplican a la categoría y al tipo de venta elegidos
+    const categoria = document.getElementById('categoria');
+    const tipo = document.getElementById('tipo');
+    function actualizar() {
+        const mostrar = (clase, visible) =>
+            document.querySelectorAll('.' + clase).forEach(e => e.style.display = visible ? '' : 'none');
+        mostrar('solo-calzado', categoria.value === 'CALZADO');
+        mostrar('solo-camiseta', categoria.value === 'CAMISETA');
+        mostrar('solo-chamarra', categoria.value === 'CHAMARRA');
+        mostrar('solo-subasta', tipo.value === 'SUBASTA');
+    }
+    // Vista previa de la foto elegida
+    document.getElementById('imagen').addEventListener('change', function () {
+        const vista = document.getElementById('vista-previa');
+        const archivo = this.files[0];
+        if (archivo) {
+            vista.src = URL.createObjectURL(archivo);
+            vista.style.display = 'block';
+        } else {
+            vista.style.display = 'none';
+        }
+    });
+    categoria.addEventListener('change', actualizar);
+    tipo.addEventListener('change', actualizar);
+    actualizar();
+</script>
+</body>
+</html>
