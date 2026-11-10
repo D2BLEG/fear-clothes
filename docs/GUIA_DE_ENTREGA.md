@@ -40,6 +40,10 @@ Las 13 capturas ya están en `docs/capturas/` (`01_catalogo.png` … `13_vista_t
 
 ## 3. Subir el código a GitHub
 
+**Ya publicado:** https://github.com/D2BLEG/fear-clothes (rama `main`). Para subir cambios nuevos: **Git → Commit** y luego **Git → Push** en IntelliJ.
+
+Pasos que se siguieron (como referencia):
+
 1. En GitHub crea un repositorio vacío (por ejemplo `fear-clothes`), sin README.
 2. En IntelliJ: **Git → Create Git Repository** (o **VCS → Enable Version Control**), elige la carpeta del proyecto.
 3. **Git → Commit** (el archivo `.gitignore` ya excluye `target/`, `data/` y `uploads/`).
